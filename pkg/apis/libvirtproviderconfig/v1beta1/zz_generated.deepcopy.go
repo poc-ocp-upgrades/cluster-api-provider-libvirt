@@ -7,10 +7,14 @@ import (
 func (in *CloudInit) DeepCopyInto(out *CloudInit) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *CloudInit) DeepCopy() *CloudInit {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if in == nil {
@@ -23,10 +27,14 @@ func (in *CloudInit) DeepCopy() *CloudInit {
 func (in *Ignition) DeepCopyInto(out *Ignition) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *Ignition) DeepCopy() *Ignition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if in == nil {
@@ -39,11 +47,15 @@ func (in *Ignition) DeepCopy() *Ignition {
 func (in *LibvirtClusterProviderConfig) DeepCopyInto(out *LibvirtClusterProviderConfig) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	return
 }
 func (in *LibvirtClusterProviderConfig) DeepCopy() *LibvirtClusterProviderConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if in == nil {
@@ -56,6 +68,8 @@ func (in *LibvirtClusterProviderConfig) DeepCopy() *LibvirtClusterProviderConfig
 func (in *LibvirtClusterProviderConfig) DeepCopyObject() runtime.Object {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
@@ -64,11 +78,15 @@ func (in *LibvirtClusterProviderConfig) DeepCopyObject() runtime.Object {
 func (in *LibvirtClusterProviderStatus) DeepCopyInto(out *LibvirtClusterProviderStatus) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	return
 }
 func (in *LibvirtClusterProviderStatus) DeepCopy() *LibvirtClusterProviderStatus {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if in == nil {
@@ -81,12 +99,16 @@ func (in *LibvirtClusterProviderStatus) DeepCopy() *LibvirtClusterProviderStatus
 func (in *LibvirtClusterProviderStatus) DeepCopyObject() runtime.Object {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *LibvirtMachineProviderCondition) DeepCopyInto(out *LibvirtMachineProviderCondition) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*out = *in
@@ -97,6 +119,8 @@ func (in *LibvirtMachineProviderCondition) DeepCopyInto(out *LibvirtMachineProvi
 func (in *LibvirtMachineProviderCondition) DeepCopy() *LibvirtMachineProviderCondition {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -105,6 +129,8 @@ func (in *LibvirtMachineProviderCondition) DeepCopy() *LibvirtMachineProviderCon
 	return out
 }
 func (in *LibvirtMachineProviderConfig) DeepCopyInto(out *LibvirtMachineProviderConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*out = *in
@@ -129,6 +155,8 @@ func (in *LibvirtMachineProviderConfig) DeepCopyInto(out *LibvirtMachineProvider
 func (in *LibvirtMachineProviderConfig) DeepCopy() *LibvirtMachineProviderConfig {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -139,12 +167,16 @@ func (in *LibvirtMachineProviderConfig) DeepCopy() *LibvirtMachineProviderConfig
 func (in *LibvirtMachineProviderConfig) DeepCopyObject() runtime.Object {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *LibvirtMachineProviderConfigList) DeepCopyInto(out *LibvirtMachineProviderConfigList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*out = *in
@@ -162,6 +194,8 @@ func (in *LibvirtMachineProviderConfigList) DeepCopyInto(out *LibvirtMachineProv
 func (in *LibvirtMachineProviderConfigList) DeepCopy() *LibvirtMachineProviderConfigList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -172,12 +206,16 @@ func (in *LibvirtMachineProviderConfigList) DeepCopy() *LibvirtMachineProviderCo
 func (in *LibvirtMachineProviderConfigList) DeepCopyObject() runtime.Object {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *LibvirtMachineProviderStatus) DeepCopyInto(out *LibvirtMachineProviderStatus) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*out = *in
@@ -204,6 +242,8 @@ func (in *LibvirtMachineProviderStatus) DeepCopyInto(out *LibvirtMachineProvider
 func (in *LibvirtMachineProviderStatus) DeepCopy() *LibvirtMachineProviderStatus {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -214,6 +254,8 @@ func (in *LibvirtMachineProviderStatus) DeepCopy() *LibvirtMachineProviderStatus
 func (in *LibvirtMachineProviderStatus) DeepCopyObject() runtime.Object {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
@@ -222,10 +264,14 @@ func (in *LibvirtMachineProviderStatus) DeepCopyObject() runtime.Object {
 func (in *Volume) DeepCopyInto(out *Volume) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *Volume) DeepCopy() *Volume {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if in == nil {

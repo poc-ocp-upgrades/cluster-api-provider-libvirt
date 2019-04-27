@@ -9,6 +9,8 @@ import (
 func ipToInt(ip net.IP) (*big.Int, int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	val := &big.Int{}
 	val.SetBytes([]byte(ip))
 	if len(ip) == net.IPv4len {
@@ -22,6 +24,8 @@ func ipToInt(ip net.IP) (*big.Int, int) {
 func intToIP(ipInt *big.Int, bits int) net.IP {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ipBytes := ipInt.Bytes()
 	ret := make([]byte, bits/8)
 	for i := 1; i <= len(ipBytes); i++ {
@@ -30,6 +34,8 @@ func intToIP(ipInt *big.Int, bits int) net.IP {
 	return net.IP(ret)
 }
 func insertNumIntoIP(ip net.IP, num int, prefixLen int) net.IP {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ipInt, totalBits := ipToInt(ip)

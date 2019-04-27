@@ -24,6 +24,8 @@ var waitTimeout = 5 * time.Minute
 func waitForSuccess(errorMessage string, f func() error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	start := time.Now()
 	for {
 		err := f()
@@ -40,9 +42,13 @@ func waitForSuccess(errorMessage string, f func() error) error {
 func newDefVolume(name string) libvirtxml.StorageVolume {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return libvirtxml.StorageVolume{Name: name, Target: &libvirtxml.StorageVolumeTarget{Format: &libvirtxml.StorageVolumeTargetFormat{Type: "qcow2"}, Permissions: &libvirtxml.StorageVolumeTargetPermissions{Mode: "644"}}, Capacity: &libvirtxml.StorageVolumeSize{Unit: "bytes", Value: 1}}
 }
 func newDefBackingStoreFromLibvirt(baseVolume *libvirt.StorageVol) (libvirtxml.StorageVolumeBackingStore, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	baseVolumeDef, err := newDefVolumeFromLibvirt(baseVolume)
@@ -57,6 +63,8 @@ func newDefBackingStoreFromLibvirt(baseVolume *libvirt.StorageVol) (libvirtxml.S
 	return backingStoreDef, nil
 }
 func newDefVolumeFromLibvirt(volume *libvirt.StorageVol) (libvirtxml.StorageVolume, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	name, err := volume.GetName()
@@ -76,6 +84,8 @@ func newDefVolumeFromLibvirt(volume *libvirt.StorageVol) (libvirtxml.StorageVolu
 func newDefVolumeFromXML(s string) (libvirtxml.StorageVolume, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var volumeDef libvirtxml.StorageVolume
 	err := xml.Unmarshal([]byte(s), &volumeDef)
 	if err != nil {
@@ -84,6 +94,8 @@ func newDefVolumeFromXML(s string) (libvirtxml.StorageVolume, error) {
 	return volumeDef, nil
 }
 func timeFromEpoch(str string) time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var s, ns int
@@ -95,6 +107,8 @@ func timeFromEpoch(str string) time.Time {
 	return time.Unix(int64(s), int64(ns))
 }
 func uploadVolume(poolName string, client *libvirtClient, volumeDef libvirtxml.StorageVolume, img image) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pool, err := client.connection.LookupStoragePoolByName(poolName)
@@ -129,6 +143,8 @@ func uploadVolume(poolName string, client *libvirtClient, volumeDef libvirtxml.S
 	return volumeKey, nil
 }
 func newCopier(virConn *libvirt.Connect, volume *libvirt.StorageVol, size uint64) func(src io.Reader) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	copier := func(src io.Reader) error {

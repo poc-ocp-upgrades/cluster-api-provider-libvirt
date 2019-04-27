@@ -29,10 +29,14 @@ const (
 func TestCart(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Machine Suite")
 }
 func BuildPKSecret(secretName, namespace, pkLoc string) (*apiv1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pkBytes, err := ioutil.ReadFile(pkLoc)
@@ -42,6 +46,8 @@ func BuildPKSecret(secretName, namespace, pkLoc string) (*apiv1.Secret, error) {
 	return &apiv1.Secret{ObjectMeta: metav1.ObjectMeta{Name: secretName, Namespace: namespace}, Data: map[string][]byte{"privatekey": pkBytes}}, nil
 }
 func createSecretAndWait(f *framework.Framework, secret *apiv1.Secret) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, err := f.KubeClient.CoreV1().Secrets(secret.Namespace).Create(secret)

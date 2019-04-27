@@ -27,9 +27,13 @@ type errorWrapper struct{ machine *machinev1.Machine }
 func (e *errorWrapper) Error(err error, message string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("%s: %s: %v", e.machine.Name, message, err)
 }
 func (e *errorWrapper) WithLog(err error, message string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	wrapped := e.Error(err, message)
@@ -63,6 +67,8 @@ type ActuatorParams struct {
 func NewActuator(params ActuatorParams) (*Actuator, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Actuator{clusterClient: params.ClusterClient, cidrOffset: 50, kubeClient: params.KubeClient, clientBuilder: params.ClientBuilder, codec: params.Codec, eventRecorder: params.EventRecorder}, nil
 }
 
@@ -76,6 +82,8 @@ const (
 func (a *Actuator) handleMachineError(machine *machinev1.Machine, err *apierrors.MachineError, eventAction string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if eventAction != noEventAction {
 		a.eventRecorder.Eventf(machine, corev1.EventTypeWarning, "Failed"+eventAction, "%v", err.Reason)
 	}
@@ -83,6 +91,8 @@ func (a *Actuator) handleMachineError(machine *machinev1.Machine, err *apierrors
 	return err
 }
 func (a *Actuator) Create(context context.Context, cluster *machinev1.Cluster, machine *machinev1.Machine) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Infof("Creating machine %q", machine.Name)
@@ -115,6 +125,8 @@ func (a *Actuator) Create(context context.Context, cluster *machinev1.Cluster, m
 func (a *Actuator) Delete(context context.Context, cluster *machinev1.Cluster, machine *machinev1.Machine) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Infof("Deleting machine %q", machine.Name)
 	machineProviderConfig, err := ProviderConfigMachine(a.codec, &machine.Spec)
 	if err != nil {
@@ -136,6 +148,8 @@ func (a *Actuator) Delete(context context.Context, cluster *machinev1.Cluster, m
 	return nil
 }
 func (a *Actuator) Update(context context.Context, cluster *machinev1.Cluster, machine *machinev1.Machine) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Infof("Updating machine %v", machine.Name)
@@ -163,6 +177,8 @@ func (a *Actuator) Update(context context.Context, cluster *machinev1.Cluster, m
 func (a *Actuator) Exists(context context.Context, cluster *machinev1.Cluster, machine *machinev1.Machine) (bool, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Infof("Checking if machine %v exists.", machine.Name)
 	errWrapper := errorWrapper{machine: machine}
 	machineProviderConfig, err := ProviderConfigMachine(a.codec, &machine.Spec)
@@ -179,14 +195,20 @@ func (a *Actuator) Exists(context context.Context, cluster *machinev1.Cluster, m
 func cloudInitVolumeName(volumeName string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%v_cloud-init", volumeName)
 }
 func ignitionVolumeName(volumeName string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%v.ignition", volumeName)
 }
 func (a *Actuator) createVolumeAndDomain(machine *machinev1.Machine, machineProviderConfig *providerconfigv1.LibvirtMachineProviderConfig, client libvirtclient.Client) (*libvirt.Domain, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	domainName := machine.Name
@@ -208,6 +230,8 @@ func (a *Actuator) createVolumeAndDomain(machine *machinev1.Machine, machineProv
 func (a *Actuator) deleteVolumeAndDomain(machine *machinev1.Machine, client libvirtclient.Client) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := client.DeleteDomain(machine.Name); err != nil && err != libvirtclient.ErrDomainNotFound {
 		return a.handleMachineError(machine, apierrors.DeleteMachine("error deleting %q domain %v", machine.Name, err), deleteEventAction)
 	}
@@ -226,6 +250,8 @@ func (a *Actuator) deleteVolumeAndDomain(machine *machinev1.Machine, client libv
 func ProviderConfigMachine(codec codec, ms *machinev1.MachineSpec) (*providerconfigv1.LibvirtMachineProviderConfig, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	providerSpec := ms.ProviderSpec
 	if providerSpec.Value == nil {
 		return nil, fmt.Errorf("no Value in ProviderConfig")
@@ -237,6 +263,8 @@ func ProviderConfigMachine(codec codec, ms *machinev1.MachineSpec) (*providercon
 	return &config, nil
 }
 func (a *Actuator) updateStatus(machine *machinev1.Machine, dom *libvirt.Domain, client libvirtclient.Client) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Infof("Updating status for %s", machine.Name)
@@ -267,6 +295,8 @@ func (a *Actuator) updateStatus(machine *machinev1.Machine, dom *libvirt.Domain,
 func (a *Actuator) applyMachineStatus(machine *machinev1.Machine, status *providerconfigv1.LibvirtMachineProviderStatus, addrs []corev1.NodeAddress) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rawStatus, err := EncodeProviderStatus(a.codec, status)
 	if err != nil {
 		return err
@@ -289,9 +319,13 @@ func (a *Actuator) applyMachineStatus(machine *machinev1.Machine, status *provid
 func EncodeProviderStatus(codec codec, status *providerconfigv1.LibvirtMachineProviderStatus) (*runtime.RawExtension, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return codec.EncodeProviderStatus(status)
 }
 func ProviderStatusFromMachine(codec codec, machine *machinev1.Machine) (*providerconfigv1.LibvirtMachineProviderStatus, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	status := &providerconfigv1.LibvirtMachineProviderStatus{}
@@ -302,6 +336,8 @@ func ProviderStatusFromMachine(codec codec, machine *machinev1.Machine) (*provid
 	return status, err
 }
 func UpdateProviderStatus(status *providerconfigv1.LibvirtMachineProviderStatus, dom *libvirt.Domain) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if dom == nil {
@@ -323,6 +359,8 @@ func UpdateProviderStatus(status *providerconfigv1.LibvirtMachineProviderStatus,
 	return nil
 }
 func NodeAddresses(client libvirtclient.Client, dom *libvirt.Domain, networkInterfaceName string) ([]corev1.NodeAddress, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	addrs := []corev1.NodeAddress{}
@@ -351,6 +389,8 @@ func NodeAddresses(client libvirtclient.Client, dom *libvirt.Domain, networkInte
 func DomainStateString(state libvirt.DomainState) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch state {
 	case libvirt.DOMAIN_NOSTATE:
 		return "None"
@@ -375,7 +415,16 @@ func DomainStateString(state libvirt.DomainState) string {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

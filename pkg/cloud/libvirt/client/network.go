@@ -23,6 +23,8 @@ type Network interface {
 func newDefNetworkfromLibvirt(network Network) (libvirtxml.Network, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	networkXMLDesc, err := network.GetXMLDesc(0)
 	if err != nil {
 		return libvirtxml.Network{}, fmt.Errorf("Error retrieving libvirt domain XML description: %s", err)
@@ -37,6 +39,8 @@ func newDefNetworkfromLibvirt(network Network) (libvirtxml.Network, error) {
 func HasDHCP(net libvirtxml.Network) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if net.Forward != nil {
 		if net.Forward.Mode == "nat" || net.Forward.Mode == "route" || net.Forward.Mode == "" {
 			return true
@@ -45,6 +49,8 @@ func HasDHCP(net libvirtxml.Network) bool {
 	return false
 }
 func updateOrAddHost(n *libvirt.Network, ip, mac, name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err := updateHost(n, ip, mac, name)
@@ -56,6 +62,8 @@ func updateOrAddHost(n *libvirt.Network, ip, mac, name string) error {
 func addHost(n *libvirt.Network, ip, mac, name string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xmlDesc, err := getHostXMLDesc(ip, mac, name)
 	if err != nil {
 		return fmt.Errorf("error getting host xml desc: %v", err)
@@ -64,6 +72,8 @@ func addHost(n *libvirt.Network, ip, mac, name string) error {
 	return n.Update(libvirt.NETWORK_UPDATE_COMMAND_ADD_LAST, libvirt.NETWORK_SECTION_IP_DHCP_HOST, -1, xmlDesc, libvirt.NETWORK_UPDATE_AFFECT_CURRENT)
 }
 func getHostXMLDesc(ip, mac, name string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	networkDHCPHost := libvirtxml.NetworkDHCPHost{IP: ip, MAC: mac, Name: name}
@@ -80,6 +90,8 @@ func getHostXMLDesc(ip, mac, name string) (string, error) {
 func updateHost(n *libvirt.Network, ip, mac, name string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xmlDesc, err := getHostXMLDesc(ip, mac, name)
 	if err != nil {
 		return fmt.Errorf("error getting host xml desc: %v", err)
@@ -88,6 +100,8 @@ func updateHost(n *libvirt.Network, ip, mac, name string) error {
 	return n.Update(libvirt.NETWORK_UPDATE_COMMAND_MODIFY, libvirt.NETWORK_SECTION_IP_DHCP_HOST, -1, xmlDesc, libvirt.NETWORK_UPDATE_AFFECT_CURRENT)
 }
 func randomMACAddress() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	buf := make([]byte, 6)

@@ -58,6 +58,8 @@ var _ Client = &libvirtClient{}
 func NewClient(URI string) (Client, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	connection, err := libvirt.NewConnect(URI)
 	if err != nil {
 		return nil, err
@@ -68,6 +70,8 @@ func NewClient(URI string) (Client, error) {
 func (client *libvirtClient) Close() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Infof("Closing libvirt connection: %p", client.connection)
 	_, err := client.connection.Close()
 	if err != nil {
@@ -76,6 +80,8 @@ func (client *libvirtClient) Close() error {
 	return err
 }
 func (client *libvirtClient) CreateDomain(input CreateDomainInput) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if input.DomainName == "" {
@@ -152,6 +158,8 @@ func (client *libvirtClient) CreateDomain(input CreateDomainInput) error {
 func (client *libvirtClient) LookupDomainByName(name string) (*libvirt.Domain, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Infof("Lookup domain by name: %q", name)
 	if client.connection == nil {
 		return nil, ErrLibVirtConIsNil
@@ -163,6 +171,8 @@ func (client *libvirtClient) LookupDomainByName(name string) (*libvirt.Domain, e
 	return domain, nil
 }
 func (client *libvirtClient) DomainExists(name string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Infof("Check if %q domain exists", name)
@@ -180,6 +190,8 @@ func (client *libvirtClient) DomainExists(name string) (bool, error) {
 	return true, nil
 }
 func (client *libvirtClient) DeleteDomain(name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	exists, err := client.DomainExists(name)
@@ -220,6 +232,8 @@ func (client *libvirtClient) DeleteDomain(name string) error {
 	return nil
 }
 func (client *libvirtClient) CreateVolume(input CreateVolumeInput) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var volume *libvirt.StorageVol
@@ -302,6 +316,8 @@ func (client *libvirtClient) CreateVolume(input CreateVolumeInput) error {
 func (client *libvirtClient) VolumeExists(volumeName string) (bool, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Infof("Check if %q volume exists", volumeName)
 	if client.connection == nil {
 		return false, ErrLibVirtConIsNil
@@ -315,6 +331,8 @@ func (client *libvirtClient) VolumeExists(volumeName string) (bool, error) {
 	return true, nil
 }
 func (client *libvirtClient) DeleteVolume(name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	exists, err := client.VolumeExists(name)
@@ -353,6 +371,8 @@ func (client *libvirtClient) DeleteVolume(name string) error {
 func (client *libvirtClient) LookupDomainHostnameByDHCPLease(domIPAddress string, networkName string) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	network, err := client.connection.LookupNetworkByName(networkName)
 	if err != nil {
 		glog.Errorf("Failed to fetch network %s from the libvirt", networkName)
@@ -373,7 +393,16 @@ func (client *libvirtClient) LookupDomainHostnameByDHCPLease(domIPAddress string
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

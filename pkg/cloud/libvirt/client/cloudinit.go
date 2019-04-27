@@ -19,6 +19,8 @@ import (
 func setCloudInit(domainDef *libvirtxml.Domain, client *libvirtClient, cloudInit *providerconfigv1.CloudInit, kubeClient kubernetes.Interface, machineNamespace, volumeName, poolName, domainName string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cloudInit.UserDataSecret == "" && !cloudInit.SSHAccess {
 		return nil
 	}
@@ -77,9 +79,13 @@ type defCloudInit struct {
 func newCloudInitDef() defCloudInit {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return defCloudInit{}
 }
 func (ci *defCloudInit) createISO() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Info("Creating new ISO")
@@ -97,6 +103,8 @@ func (ci *defCloudInit) createISO() (string, error) {
 	return isoDestination, nil
 }
 func (ci *defCloudInit) createFiles() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Info("Creating ISO contents")
@@ -119,6 +127,8 @@ func (ci *defCloudInit) createFiles() (string, error) {
 func (ci *defCloudInit) uploadIso(client *libvirtClient, iso string) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	volumeDef := newDefVolume(ci.Name)
 	img, err := newImage(iso)
 	if err != nil {
@@ -137,6 +147,8 @@ func (ci *defCloudInit) uploadIso(client *libvirtClient, iso string) (string, er
 func removeTmpIsoDirectory(iso string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := os.RemoveAll(filepath.Dir(iso))
 	if err != nil {
 		glog.Infof("Error while removing tmp directory holding the ISO file: %s", err)
@@ -149,6 +161,8 @@ type cloudInitParams struct {
 }
 
 func renderCloudInitStr(userDataScript []byte, sshAccess bool) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	userDataEnc := base64.StdEncoding.EncodeToString(userDataScript)
@@ -201,6 +215,8 @@ ssh_authorized_keys:
 type metaDataParams struct{ InstanceID string }
 
 func renderMetaDataStr(instanceID string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	params := metaDataParams{InstanceID: instanceID}

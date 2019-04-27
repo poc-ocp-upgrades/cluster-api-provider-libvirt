@@ -22,9 +22,13 @@ type httpImage struct{ url *url.URL }
 func (i *httpImage) string() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.url.String()
 }
 func (i *httpImage) size() (uint64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	response, err := http.Head(i.url.String())
@@ -42,6 +46,8 @@ func (i *httpImage) size() (uint64, error) {
 	return uint64(length), nil
 }
 func (i *httpImage) importImage(copier func(io.Reader) error, vol libvirtxml.StorageVolume) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	client := &http.Client{}
@@ -65,6 +71,8 @@ type localImage struct{ path string }
 func newImage(source string) (image, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url, err := url.Parse(source)
 	if err != nil {
 		return nil, fmt.Errorf("can't parse source %q as url: %v", source, err)
@@ -80,9 +88,13 @@ func newImage(source string) (image, error) {
 func (i *localImage) string() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.path
 }
 func (i *localImage) size() (uint64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fi, err := os.Stat(i.path)
@@ -92,6 +104,8 @@ func (i *localImage) size() (uint64, error) {
 	return uint64(fi.Size()), nil
 }
 func (i *localImage) importImage(copier func(io.Reader) error, vol libvirtxml.StorageVolume) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	file, err := os.Open(i.path)

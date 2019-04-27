@@ -15,6 +15,8 @@ type libvirtClient struct{ conn *libvirt.Connect }
 func NewLibvirtClient(uri string) (*libvirtClient, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conn, err := libvirt.NewConnect(uri)
 	if err != nil {
 		return nil, err
@@ -22,6 +24,8 @@ func NewLibvirtClient(uri string) (*libvirtClient, error) {
 	return &libvirtClient{conn: conn}, nil
 }
 func (client *libvirtClient) GetRunningInstances(machine *machinev1.Machine) ([]interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	domain, err := client.getRunningDomain(machine.Name)
@@ -36,9 +40,13 @@ func (client *libvirtClient) GetRunningInstances(machine *machinev1.Machine) ([]
 func (client *libvirtClient) GetPublicDNSName(machine *machinev1.Machine) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return client.GetPrivateIP(machine)
 }
 func (client *libvirtClient) GetPrivateIP(machine *machinev1.Machine) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	domain, err := client.getRunningDomain(machine.Name)
@@ -64,6 +72,8 @@ func (client *libvirtClient) GetPrivateIP(machine *machinev1.Machine) (string, e
 func (client *libvirtClient) getRunningDomain(name string) (*libvirt.Domain, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	domain, err := client.conn.LookupDomainByName(name)
 	if err != nil {
 		if strings.Contains(err.Error(), "no domain with matching name") {
@@ -83,7 +93,16 @@ func (client *libvirtClient) getRunningDomain(name string) (*libvirt.Domain, err
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

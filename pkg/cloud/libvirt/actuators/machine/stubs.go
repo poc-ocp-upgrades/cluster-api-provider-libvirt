@@ -16,9 +16,13 @@ const (
 func stubProviderConfig() *providerconfigv1.LibvirtMachineProviderConfig {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &providerconfigv1.LibvirtMachineProviderConfig{DomainMemory: 2048, DomainVcpu: 1, CloudInit: &providerconfigv1.CloudInit{SSHAccess: true}, Volume: &providerconfigv1.Volume{PoolName: "default", BaseVolumeID: "/var/lib/libvirt/images/fedora_base"}, NetworkInterfaceName: "default", NetworkInterfaceAddress: "192.168.124.12/24", Autostart: false, URI: "http://localhost"}
 }
 func stubMachine() (*machinev1.Machine, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	machinePc := stubProviderConfig()
@@ -34,6 +38,8 @@ func stubMachine() (*machinev1.Machine, error) {
 	return machine, nil
 }
 func stubCluster() *machinev1.Cluster {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &machinev1.Cluster{ObjectMeta: metav1.ObjectMeta{Name: clusterID, Namespace: defaultNamespace}}

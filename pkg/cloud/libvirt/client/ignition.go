@@ -16,6 +16,8 @@ import (
 func setIgnition(domainDef *libvirtxml.Domain, client *libvirtClient, ignition *providerconfigv1.Ignition, kubeClient kubernetes.Interface, machineNamespace, volumeName, poolName string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Info("Creating ignition file")
 	ignitionDef := newIgnitionDef()
 	if ignition.UserDataSecret == "" {
@@ -50,9 +52,13 @@ type defIgnition struct {
 func newIgnitionDef() defIgnition {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return defIgnition{}
 }
 func (ign *defIgnition) createAndUpload(client *libvirtClient) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	volumeDef := newDefVolume(ign.Name)
@@ -79,6 +85,8 @@ func (ign *defIgnition) createAndUpload(client *libvirtClient) (string, error) {
 	return uploadVolume(ign.PoolName, client, volumeDef, img)
 }
 func (ign *defIgnition) createFile() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Info("Creating Ignition temporary file")

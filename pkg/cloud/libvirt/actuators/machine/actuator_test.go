@@ -19,6 +19,8 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	machinev1beta1.AddToScheme(scheme.Scheme)
 }
 
@@ -28,6 +30,8 @@ const (
 )
 
 func TestMachineEvents(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	codec, err := providerconfigv1.NewCodec()

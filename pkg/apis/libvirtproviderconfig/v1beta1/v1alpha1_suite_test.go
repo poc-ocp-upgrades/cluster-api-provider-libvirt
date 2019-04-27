@@ -17,6 +17,8 @@ var c client.Client
 func TestMain(m *testing.M) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &envtest.Environment{CRDDirectoryPaths: []string{filepath.Join("..", "..", "..", "..", "config", "crds")}}
 	err := SchemeBuilder.AddToScheme(scheme.Scheme)
 	if err != nil {

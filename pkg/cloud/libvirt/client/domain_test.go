@@ -8,6 +8,8 @@ import (
 func TestSetCoreOSIgnition(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		ignKey		string
 		expected	string

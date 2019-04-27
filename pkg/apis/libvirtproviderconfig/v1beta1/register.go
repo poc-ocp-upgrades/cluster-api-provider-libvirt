@@ -24,9 +24,13 @@ type LibvirtProviderConfigCodec struct {
 func NewScheme() (*runtime.Scheme, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return SchemeBuilder.Build()
 }
 func NewCodec() (*LibvirtProviderConfigCodec, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	scheme, err := NewScheme()
@@ -44,6 +48,8 @@ func NewCodec() (*LibvirtProviderConfigCodec, error) {
 func (codec *LibvirtProviderConfigCodec) DecodeFromProviderSpec(providerConfig machinev1.ProviderSpec, out runtime.Object) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if providerConfig.Value != nil {
 		if err := yaml.Unmarshal(providerConfig.Value.Raw, out); err != nil {
 			return fmt.Errorf("decoding failure: %v", err)
@@ -52,6 +58,8 @@ func (codec *LibvirtProviderConfigCodec) DecodeFromProviderSpec(providerConfig m
 	return nil
 }
 func (codec *LibvirtProviderConfigCodec) EncodeToProviderSpec(in runtime.Object) (*machinev1.ProviderSpec, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var buf bytes.Buffer
@@ -63,6 +71,8 @@ func (codec *LibvirtProviderConfigCodec) EncodeToProviderSpec(in runtime.Object)
 func (codec *LibvirtProviderConfigCodec) EncodeProviderStatus(in runtime.Object) (*runtime.RawExtension, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var buf bytes.Buffer
 	if err := codec.encoder.Encode(in, &buf); err != nil {
 		return nil, fmt.Errorf("encoding failed: %v", err)
@@ -70,6 +80,8 @@ func (codec *LibvirtProviderConfigCodec) EncodeProviderStatus(in runtime.Object)
 	return &runtime.RawExtension{Raw: buf.Bytes()}, nil
 }
 func (codec *LibvirtProviderConfigCodec) DecodeProviderStatus(providerStatus *runtime.RawExtension, out runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if providerStatus != nil {
@@ -80,6 +92,8 @@ func (codec *LibvirtProviderConfigCodec) DecodeProviderStatus(providerStatus *ru
 	return nil
 }
 func newEncoder(codecFactory *serializer.CodecFactory) (runtime.Encoder, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	serializerInfos := codecFactory.SupportedMediaTypes()

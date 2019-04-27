@@ -27,6 +27,8 @@ var ErrDomainNotFound = errors.New("Domain not found")
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rand.Seed(time.Now().UTC().UnixNano())
 }
 
@@ -39,6 +41,8 @@ type pendingMapping struct {
 func newDomainDef() libvirtxml.Domain {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var serialPort uint
 	domainDef := libvirtxml.Domain{OS: &libvirtxml.DomainOS{Type: &libvirtxml.DomainOSType{Type: "hvm"}}, Memory: &libvirtxml.DomainMemory{Unit: "MiB", Value: 512}, VCPU: &libvirtxml.DomainVCPU{Placement: "static", Value: 1}, CPU: &libvirtxml.DomainCPU{}, Devices: &libvirtxml.DomainDeviceList{Graphics: []libvirtxml.DomainGraphic{{Spice: &libvirtxml.DomainGraphicSpice{AutoPort: "yes"}}}, Channels: []libvirtxml.DomainChannel{{Target: &libvirtxml.DomainChannelTarget{VirtIO: &libvirtxml.DomainChannelTargetVirtIO{Name: "org.qemu.guest_agent.0"}}}}, RNGs: []libvirtxml.DomainRNG{{Model: "virtio", Backend: &libvirtxml.DomainRNGBackend{Random: &libvirtxml.DomainRNGBackendRandom{}}}}, Consoles: []libvirtxml.DomainConsole{{Source: &libvirtxml.DomainChardevSource{Pty: &libvirtxml.DomainChardevSourcePty{}}, Target: &libvirtxml.DomainConsoleTarget{Type: "virtio", Port: &serialPort}}}}, Features: &libvirtxml.DomainFeatureList{PAE: &libvirtxml.DomainFeature{}, ACPI: &libvirtxml.DomainFeature{}, APIC: &libvirtxml.DomainFeatureAPIC{}}}
 	if v := os.Getenv("TERRAFORM_LIBVIRT_TEST_DOMAIN_TYPE"); v != "" {
@@ -49,6 +53,8 @@ func newDomainDef() libvirtxml.Domain {
 	return domainDef
 }
 func getHostArchitecture(virConn *libvirt.Connect) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	type HostCapabilities struct {
@@ -72,6 +78,8 @@ func getHostArchitecture(virConn *libvirt.Connect) (string, error) {
 func getHostCapabilities(virConn *libvirt.Connect) (libvirtxml.Caps, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caps := libvirtxml.Caps{}
 	capsXML, err := virConn.GetCapabilities()
 	if err != nil {
@@ -84,6 +92,8 @@ func getHostCapabilities(virConn *libvirt.Connect) (libvirtxml.Caps, error) {
 func getGuestForArchType(caps libvirtxml.Caps, arch string, virttype string) (libvirtxml.CapsGuest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, guest := range caps.Guests {
 		glog.Infof("Checking for %s/%s against %s/%s", arch, virttype, guest.Arch.Name, guest.OSType)
 		if guest.Arch.Name == arch && guest.OSType == virttype {
@@ -94,6 +104,8 @@ func getGuestForArchType(caps libvirtxml.Caps, arch string, virttype string) (li
 	return libvirtxml.CapsGuest{}, fmt.Errorf("Could not find any guests for architecure type %s/%s", virttype, arch)
 }
 func getCanonicalMachineName(caps libvirtxml.Caps, arch string, virttype string, targetmachine string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	glog.Info("Get machine name")
@@ -112,6 +124,8 @@ func getCanonicalMachineName(caps libvirtxml.Caps, arch string, virttype string,
 	return "", fmt.Errorf("Cannot find machine type %s for %s/%s in %v", targetmachine, virttype, arch, caps)
 }
 func newDomainDefForConnection(virConn *libvirt.Connect) (libvirtxml.Domain, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d := newDomainDef()
@@ -142,6 +156,8 @@ func newDomainDefForConnection(virConn *libvirt.Connect) (libvirtxml.Domain, err
 func setCoreOSIgnition(domainDef *libvirtxml.Domain, ignKey string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ignKey == "" {
 		return fmt.Errorf("error setting coreos ignition, ignKey is empty")
 	}
@@ -149,6 +165,8 @@ func setCoreOSIgnition(domainDef *libvirtxml.Domain, ignKey string) error {
 	return nil
 }
 func newDefDisk(i int) libvirtxml.DomainDisk {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return libvirtxml.DomainDisk{Device: "disk", Target: &libvirtxml.DomainDiskTarget{Bus: "virtio", Dev: fmt.Sprintf("vd%s", diskLetterForIndex(i))}, Driver: &libvirtxml.DomainDiskDriver{Name: "qemu", Type: "qcow2"}}
@@ -159,6 +177,8 @@ var diskLetters = []rune("abcdefghijklmnopqrstuvwxyz")
 const oui = "05abcd"
 
 func diskLetterForIndex(i int) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	q := i / len(diskLetters)
@@ -172,6 +192,8 @@ func diskLetterForIndex(i int) string {
 func randomWWN(strlen int) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const chars = "abcdef0123456789"
 	result := make([]byte, strlen)
 	for i := 0; i < strlen; i++ {
@@ -180,6 +202,8 @@ func randomWWN(strlen int) string {
 	return oui + string(result)
 }
 func setDisks(domainDef *libvirtxml.Domain, virConn *libvirt.Connect, volumeKey string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	disk := newDefDisk(0)
@@ -201,6 +225,8 @@ func setDisks(domainDef *libvirtxml.Domain, virConn *libvirt.Connect, volumeKey 
 func xmlMarshallIndented(b interface{}) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := new(bytes.Buffer)
 	enc := xml.NewEncoder(buf)
 	enc.Indent("  ", "    ")
@@ -210,6 +236,8 @@ func xmlMarshallIndented(b interface{}) (string, error) {
 	return buf.String(), nil
 }
 func setNetworkInterfaces(domainDef *libvirtxml.Domain, virConn *libvirt.Connect, partialNetIfaces map[string]*pendingMapping, waitForLeases *[]*libvirtxml.DomainInterface, networkInterfaceHostname string, networkInterfaceName string, networkInterfaceAddress string, offset int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i := 0; i < 1; i++ {
@@ -278,6 +306,8 @@ func setNetworkInterfaces(domainDef *libvirtxml.Domain, virConn *libvirt.Connect
 type Config struct{ URI string }
 
 func domainDefInit(domainDef *libvirtxml.Domain, name string, memory, vcpu int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if name != "" {
