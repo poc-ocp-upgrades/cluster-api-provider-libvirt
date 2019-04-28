@@ -9,24 +9,19 @@ import (
 	"os/exec"
 	"path/filepath"
 	"text/template"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
-
 	"github.com/golang/glog"
-
 	libvirtxml "github.com/libvirt/libvirt-go-xml"
 	providerconfigv1 "github.com/openshift/cluster-api-provider-libvirt/pkg/apis/libvirtproviderconfig/v1beta1"
 )
 
 func setCloudInit(domainDef *libvirtxml.Domain, client *libvirtClient, cloudInit *providerconfigv1.CloudInit, kubeClient kubernetes.Interface, machineNamespace, volumeName, domainName string) error {
-
-	// At least user data or ssh access needs to be set to create the cloud init
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cloudInit.UserDataSecret == "" && !cloudInit.SSHAccess {
 		return nil
 	}
-
-	// default to bash noop
 	userDataSecret := []byte(":")
 	if cloudInit.UserDataSecret != "" {
 		secret, err := kubeClient.CoreV1().Secrets(machineNamespace).Get(cloudInit.UserDataSecret, metav1.GetOptions{})
@@ -39,55 +34,31 @@ func setCloudInit(domainDef *libvirtxml.Domain, client *libvirtClient, cloudInit
 			return fmt.Errorf("can not retrieve user data secret '%v/%v' when constructing cloud init volume: key 'data' not found in the secret", machineNamespace, cloudInit.UserDataSecret)
 		}
 	}
-
 	userData, err := renderCloudInitStr(userDataSecret, cloudInit.SSHAccess)
 	if err != nil {
 		return fmt.Errorf("can not render cloud init user-data: %v", err)
 	}
-
 	metaData, err := renderMetaDataStr(domainName)
 	if err != nil {
 		return fmt.Errorf("can not render cloud init meta-data: %v", err)
 	}
-
 	cloudInitISOName := volumeName
-
 	cloudInitDef := newCloudInitDef()
 	cloudInitDef.UserData = string(userData)
 	cloudInitDef.MetaData = string(metaData)
 	cloudInitDef.Name = cloudInitISOName
 	cloudInitDef.PoolName = client.poolName
-
 	glog.Infof("cloudInitDef: %+v", cloudInitDef)
-
 	iso, err := cloudInitDef.createISO()
 	if err != nil {
 		return fmt.Errorf("unable to create ISO %v: %v", cloudInitISOName, err)
 	}
-
 	key, err := cloudInitDef.uploadIso(client, iso)
 	if err != nil {
 		return fmt.Errorf("unable to upload ISO: %v", err)
 	}
 	glog.Infof("key: %+v", key)
-
-	domainDef.Devices.Disks = append(domainDef.Devices.Disks, libvirtxml.DomainDisk{
-		Device: "cdrom",
-		Driver: &libvirtxml.DomainDiskDriver{
-			Name: "qemu",
-			Type: "raw",
-		},
-		Source: &libvirtxml.DomainDiskSource{
-			File: &libvirtxml.DomainDiskSourceFile{
-				File: key,
-			},
-		},
-		Target: &libvirtxml.DomainDiskTarget{
-			Dev: "hdd",
-			Bus: "ide",
-		},
-	})
-
+	domainDef.Devices.Disks = append(domainDef.Devices.Disks, libvirtxml.DomainDisk{Device: "cdrom", Driver: &libvirtxml.DomainDiskDriver{Name: "qemu", Type: "raw"}, Source: &libvirtxml.DomainDiskSource{File: &libvirtxml.DomainDiskSourceFile{File: key}}, Target: &libvirtxml.DomainDiskTarget{Dev: "hdd", Bus: "ide"}})
 	return nil
 }
 
@@ -96,100 +67,76 @@ const metaDataFileName string = "meta-data"
 const networkConfigFileName string = "network-config"
 
 type defCloudInit struct {
-	Name          string
-	PoolName      string
-	MetaData      string `yaml:"meta_data"`
-	UserData      string `yaml:"user_data"`
-	NetworkConfig string `yaml:"network_config"`
+	Name		string
+	PoolName	string
+	MetaData	string	`yaml:"meta_data"`
+	UserData	string	`yaml:"user_data"`
+	NetworkConfig	string	`yaml:"network_config"`
 }
 
 func newCloudInitDef() defCloudInit {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return defCloudInit{}
 }
-
-// Create the ISO holding all the cloud-init data
-// Returns a string with the full path to the ISO file
 func (ci *defCloudInit) createISO() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Info("Creating new ISO")
 	tmpDir, err := ci.createFiles()
 	if err != nil {
 		return "", err
 	}
-
 	isoDestination := filepath.Join(tmpDir, ci.Name)
-	cmd := exec.Command(
-		"mkisofs",
-		"-output",
-		isoDestination,
-		"-volid",
-		"cidata",
-		"-joliet",
-		"-rock",
-		filepath.Join(tmpDir, userDataFileName),
-		filepath.Join(tmpDir, metaDataFileName),
-		filepath.Join(tmpDir, networkConfigFileName))
-
+	cmd := exec.Command("mkisofs", "-output", isoDestination, "-volid", "cidata", "-joliet", "-rock", filepath.Join(tmpDir, userDataFileName), filepath.Join(tmpDir, metaDataFileName), filepath.Join(tmpDir, networkConfigFileName))
 	glog.Infof("About to execute cmd: %+v", cmd)
 	if err = cmd.Run(); err != nil {
 		return "", fmt.Errorf("error while starting the creation of CloudInit's ISO image: %s", err)
 	}
 	glog.Infof("ISO created at %s", isoDestination)
-
 	return isoDestination, nil
 }
-
-// write user-data,  meta-data network-config in tmp files and dedicated directory
-// Returns a string containing the name of the temporary directory and an error
-// object
 func (ci *defCloudInit) createFiles() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Info("Creating ISO contents")
 	tmpDir, err := ioutil.TempDir("", "cloudinit")
 	if err != nil {
-		return "", fmt.Errorf("Cannot create tmp directory for cloudinit ISO generation: %s",
-			err)
+		return "", fmt.Errorf("Cannot create tmp directory for cloudinit ISO generation: %s", err)
 	}
-	// user-data
 	if err = ioutil.WriteFile(filepath.Join(tmpDir, userDataFileName), []byte(ci.UserData), os.ModePerm); err != nil {
 		return "", fmt.Errorf("Error while writing user-data to file: %s", err)
 	}
-	// meta-data
 	if err = ioutil.WriteFile(filepath.Join(tmpDir, metaDataFileName), []byte(ci.MetaData), os.ModePerm); err != nil {
 		return "", fmt.Errorf("Error while writing meta-data to file: %s", err)
 	}
-	// network-config
 	if err = ioutil.WriteFile(filepath.Join(tmpDir, networkConfigFileName), []byte(ci.NetworkConfig), os.ModePerm); err != nil {
 		return "", fmt.Errorf("Error while writing network-config to file: %s", err)
 	}
-
 	glog.Info("ISO contents created")
-
 	return tmpDir, nil
 }
-
 func (ci *defCloudInit) uploadIso(client *libvirtClient, iso string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	volumeDef := newDefVolume(ci.Name)
-
-	// an existing image was given, this mean we can't choose size
 	img, err := newImage(iso)
 	if err != nil {
 		return "", err
 	}
-
 	defer removeTmpIsoDirectory(iso)
-
 	size, err := img.size()
 	if err != nil {
 		return "", err
 	}
-
 	volumeDef.Capacity.Unit = "B"
 	volumeDef.Capacity.Value = size
 	volumeDef.Target.Format.Type = "raw"
-
 	return uploadVolume(ci.PoolName, client, volumeDef, img)
 }
-
 func removeTmpIsoDirectory(iso string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := os.RemoveAll(filepath.Dir(iso))
 	if err != nil {
 		glog.Infof("Error while removing tmp directory holding the ISO file: %s", err)
@@ -197,19 +144,15 @@ func removeTmpIsoDirectory(iso string) {
 }
 
 type cloudInitParams struct {
-	UserDataScript string
-	SSHAccess      bool
+	UserDataScript	string
+	SSHAccess	bool
 }
 
 func renderCloudInitStr(userDataScript []byte, sshAccess bool) (string, error) {
-	// The bash script is rendered into cloud init file so it needs to be
-	// base64 encoded to avoid interpretation.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userDataEnc := base64.StdEncoding.EncodeToString(userDataScript)
-
-	params := cloudInitParams{
-		UserDataScript: userDataEnc,
-		SSHAccess:      sshAccess,
-	}
+	params := cloudInitParams{UserDataScript: userDataEnc, SSHAccess: sshAccess}
 	t, err := template.New("cloudinit").Parse(defaultCloudInitStr)
 	if err != nil {
 		return "", err
@@ -219,7 +162,6 @@ func renderCloudInitStr(userDataScript []byte, sshAccess bool) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	return buf.String(), nil
 }
 
@@ -256,15 +198,12 @@ ssh_authorized_keys:
 {{ end }}
 `
 
-type metaDataParams struct {
-	InstanceID string
-}
+type metaDataParams struct{ InstanceID string }
 
 func renderMetaDataStr(instanceID string) (string, error) {
-	params := metaDataParams{
-		InstanceID: instanceID,
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	params := metaDataParams{InstanceID: instanceID}
 	t, err := template.New("metadata").Parse(defaultMetaDataStr)
 	if err != nil {
 		return "", err
@@ -274,7 +213,6 @@ func renderMetaDataStr(instanceID string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	return buf.String(), nil
 }
 
